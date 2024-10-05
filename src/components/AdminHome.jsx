@@ -25,7 +25,7 @@ function AdminHome({user}){
         // console.log(signoEditar);
         // console.log(textoEditar);
         e.preventDefault();
-        fetch(`http://horoscopo-back-coral.vercel.app/v1/signos/${signoEditar}`, {
+        fetch(`https://horoscopo-back-coral.vercel.app/v1/signos/${signoEditar}`, {
             method: 'PATCH',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({"textoEditar": textoEditar})

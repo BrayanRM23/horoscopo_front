@@ -15,7 +15,7 @@ function ChangePassword() {
             return;
         }
 
-        fetch(`http://horoscopo-back-coral.vercel.app/v1/signos/actualizar`, {
+        fetch(`https://horoscopo-back-coral.vercel.app/v1/signos/actualizar`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password, update })  

@@ -17,7 +17,7 @@ function ChangePasswords() {
             return;
         }
 
-        fetch(`http://horoscopo-back-coral.vercel.app/v1/signos/crear`, {
+        fetch(`https://horoscopo-back-coral.vercel.app/v1/signos/crear`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password, role })  // Enviar también el rol (admin o user)
