@@ -9,9 +9,9 @@ function UserHome({ user }) {
     }
 
     const home = useNavigate();
-    const [textoSigno, setTextoSigno] = useState('');
     const [signo, setSigno] = useState('');
     const [genero, setGenero] = useState('');
+    const [textoSigno, setTextoSigno] = useState('');
 
     function goHome() {
         home("/");
@@ -20,13 +20,12 @@ function UserHome({ user }) {
     async function fetchSigno() {
         if (signo && genero) {
             try {
-                const response = await fetch(
-                    `https://horoscopo-back-coral.vercel.app/v1/signos?signo=${signo}&genero=${genero}`
-                );
+                const url = `https://horoscopo-back-coral.vercel.app/v1/signos?signo=${signo}&genero=${genero}`;
+                const response = await fetch(url);
                 const data = await response.json();
-    
+
                 if (response.ok) {
-                    setTextoSigno(data.texto); // Asegúrate que el backend devuelva "texto"
+                    setTextoSigno(data.texto);
                 } else {
                     setTextoSigno("Información no encontrada para este signo y género.");
                 }
@@ -39,26 +38,16 @@ function UserHome({ user }) {
         }
     }
 
-    function handleSignoChange(event) {
-        setSigno(event.target.value);
-    }
-
-    function handleGeneroChange(event) {
-        setGenero(event.target.value);
-    }
-
     return (
         <div className="container">
-            <div id="txtSeleccionPage">
-                <h3>Selecciona tu signo zodiacal</h3>
-            </div>
+            <div id="txtSeleccionPage"><h3>Selecciona tu signo zodiacal</h3></div>
 
-            <div className="selectores">
-                <select id="selectSignos" onChange={handleSignoChange}>
+            <div>
+                <select id="selectSigno" onChange={(e) => setSigno(e.target.value)}>
                     <option value="">Seleccione un signo</option>
                     <option value="Aries">Aries</option>
-                    <option value="Géminis">Géminis</option>
-                    <option value="Cáncer">Cáncer</option>
+                    <option value="Geminis">Géminis</option>
+                    <option value="Cancer">Cáncer</option>
                     <option value="Leo">Leo</option>
                     <option value="Virgo">Virgo</option>
                     <option value="Libra">Libra</option>
@@ -69,7 +58,7 @@ function UserHome({ user }) {
                     <option value="Piscis">Piscis</option>
                 </select>
 
-                <select id="selectSignos" onChange={handleGeneroChange}>
+                <select id="selectSigno" onChange={(e) => setGenero(e.target.value)}>
                     <option value="">Seleccione un género</option>
                     <option value="hombre">Hombre</option>
                     <option value="mujer">Mujer</option>
@@ -77,15 +66,16 @@ function UserHome({ user }) {
                 </select>
             </div>
 
-            <button id="btnBuscar" onClick={fetchSigno}>Buscar</button>
+            <button onClick={fetchSigno}>Ver Signo</button>
 
             <TextSigno texto={textoSigno} />
 
-            <button id="btnHome" onClick={fetchSigno}>Buscar</button>
+            <button id="btnHome"  onClick={fetchSigno}>Ver Signo</button>
         </div>
     );
 }
 
 export default UserHome;
+
 
 
