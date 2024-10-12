@@ -9,25 +9,40 @@ function UserHome({ user }) {
     }
 
     const home = useNavigate();
-    const [signoSeleccionado, setSignoSeleccionado] = useState("");
-    const [generoSeleccionado, setGeneroSeleccionado] = useState("");
-    const [textoSigno, setTextoSigno] = useState("");
+    const [textoSigno, setTextoSigno] = useState('');
+    const [signo, setSigno] = useState('');
+    const [genero, setGenero] = useState('');
 
     function goHome() {
         home("/");
     }
 
-    async function handleFetch() {
-        if (signoSeleccionado && generoSeleccionado) {
+    async function fetchSigno() {
+        if (signo && genero) {
             try {
-                const response = await fetch(`https://horoscopo-back-coral.vercel.app/v1/signos?signo=${signoSeleccionado}&genero=${generoSeleccionado}`);
+                const response = await fetch(
+                    `https://horoscopo-back-coral.vercel.app/v1/signos?signo=${signo}&genero=${genero}`
+                );
                 const data = await response.json();
-                setTextoSigno(data.texto || "No hay información disponible.");
+
+                if (response.ok) {
+                    setTextoSigno(data.texto);
+                } else {
+                    setTextoSigno("Información no encontrada para este signo y género.");
+                }
             } catch (error) {
                 console.error("Error al obtener el signo:", error);
-                setTextoSigno("Error al obtener la información.");
+                setTextoSigno("Error al conectar con el servidor.");
             }
         }
+    }
+
+    function handleSignoChange(event) {
+        setSigno(event.target.value);
+    }
+
+    function handleGeneroChange(event) {
+        setGenero(event.target.value);
     }
 
     return (
@@ -35,16 +50,13 @@ function UserHome({ user }) {
             <div id="txtSeleccionPage">
                 <h3>Selecciona tu signo zodiacal</h3>
             </div>
+
             <div className="selectores">
-                <select 
-                    id="selectSignos" 
-                    onChange={(e) => setSignoSeleccionado(e.target.value)} 
-                    value={signoSeleccionado}
-                >
-                    <option value="">Selecciona un signo</option>
+                <select id="selectSignos" onChange={handleSignoChange}>
+                    <option value="">Seleccione un signo</option>
                     <option value="Aries">Aries</option>
-                    <option value="Geminis">Géminis</option>
-                    <option value="Cancer">Cáncer</option>
+                    <option value="Géminis">Géminis</option>
+                    <option value="Cáncer">Cáncer</option>
                     <option value="Leo">Leo</option>
                     <option value="Virgo">Virgo</option>
                     <option value="Libra">Libra</option>
@@ -55,26 +67,22 @@ function UserHome({ user }) {
                     <option value="Piscis">Piscis</option>
                 </select>
 
-                <select 
-                    id="selectGenero" 
-                    onChange={(e) => setGeneroSeleccionado(e.target.value)} 
-                    value={generoSeleccionado}
-                >
-                    <option value="">Selecciona un género</option>
+                <select id="selectSignos" onChange={handleGeneroChange}>
+                    <option value="">Seleccione un género</option>
                     <option value="hombre">Hombre</option>
                     <option value="mujer">Mujer</option>
                     <option value="niño">Niño</option>
                 </select>
-
-                <button id="btnBuscar" onClick={handleFetch}>
-                    Buscar
-                </button>
             </div>
 
+            <button id="btnBuscar" onClick={fetchSigno}>Buscar</button>
+
             <TextSigno texto={textoSigno} />
+
             <button id="btnHome" onClick={goHome}>Home</button>
         </div>
     );
 }
 
 export default UserHome;
+
