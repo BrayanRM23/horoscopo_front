@@ -42,11 +42,13 @@ function UserHome({ user }) {
 
     return (
         <div className="container">
-            <h3 id="txtSeleccionPage">Selecciona tu signo zodiacal</h3>
+            <div id="txtSeleccionPage">
+                <h3>Selecciona tu signo zodiacal</h3>
+            </div>
 
-            <div>
-                <select id="selectSigno" onChange={(e) => setSigno(e.target.value)}>
-                    <option value="">Seleccionar signo</option>
+            <div className="selectores">
+                <select id="selectSignos" onChange={handleSignoChange}>
+                    <option value="">Seleccione un signo</option>
                     <option value="Aries">Aries</option>
                     <option value="Géminis">Géminis</option>
                     <option value="Cáncer">Cáncer</option>
@@ -60,8 +62,8 @@ function UserHome({ user }) {
                     <option value="Piscis">Piscis</option>
                 </select>
 
-                <select id="selectSigno" onChange={(e) => setGenero(e.target.value)}>
-                    <option value="">Seleccionar género</option>
+                <select id="selectSignos" onChange={handleGeneroChange}>
+                    <option value="">Seleccione un género</option>
                     <option value="hombre">Hombre</option>
                     <option value="mujer">Mujer</option>
                     <option value="niño">Niño</option>
