@@ -1,5 +1,5 @@
 import { Navigate, useNavigate } from "react-router-dom";
-import './styles/AdminHome.css'
+import './styles/AdminHome.css';
 import { useState } from "react";
 
 function AdminHome({ user }) {
@@ -13,12 +13,16 @@ function AdminHome({ user }) {
 
     function handleSelectSigno(event) {
         const signo = event.target.value;
-        setSignoEditar(signo);
+        if (signo !== "0") {
+            setSignoEditar(signo);
+        }
     }
 
     function handleSelectGenero(event) {
         const generoSeleccionado = event.target.value;
-        setGenero(generoSeleccionado);
+        if (generoSeleccionado !== "0") {
+            setGenero(generoSeleccionado);
+        }
     }
 
     function goHome() {
@@ -27,27 +31,38 @@ function AdminHome({ user }) {
 
     function handleClick(e) {
         e.preventDefault();
-        fetch(`https://horoscopo-back-coral.vercel.app/v1/signos/${signoEditar}${genero}`, {
+
+        // Asegurarse de que los campos no estén vacíos
+        if (!signoEditar || !genero || !textoEditar) {
+            alert("Por favor, complete todos los campos.");
+            return;
+        }
+
+        fetch(`https://horoscopo-back-coral.vercel.app/v1/signos/update`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ "textoEditar": textoEditar })
+            body: JSON.stringify({ signo: signoEditar, genero, textoEditar })
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            // Aquí puedes agregar lógica para manejar la respuesta del servidor
-        })
-        .catch(error => {
-            console.error("Error al editar signo:", error);
-        });
+            .then(res => res.json())
+            .then(responseData => {
+                alert(responseData.resultado);
+                if (responseData.resultado === 'Signo actualizado correctamente') {
+                    // Aquí puedes agregar cualquier lógica adicional si es necesario
+                }
+            })
+            .catch(error => {
+                console.error("Error al actualizar el signo:", error);
+                alert("Hubo un error al actualizar el signo.");
+            });
     }
 
     return (
         <div className="container">
             <h2 id="textoAdmin">Edita un Signo Zodiacal</h2>
             <div className="selectores">
+
                 <select id="editSignos" onChange={handleSelectSigno}>
-                    <option value="">Selecciona un signo</option>
+                    <option value="0">Selecciona un signo</option>
                     <option value="Aries">Aries</option>
                     <option value="Géminis">Géminis</option>
                     <option value="Cáncer">Cáncer</option>
@@ -62,14 +77,21 @@ function AdminHome({ user }) {
                 </select>
 
                 <select id="editSignos" onChange={handleSelectGenero}>
-                    <option value="">Selecciona un género</option>
+                    <option value="0">Selecciona un género</option>
                     <option value="hombre">Hombre</option>
                     <option value="mujer">Mujer</option>
                     <option value="niño">Niño</option>
                 </select>
+
             </div>
 
-            <textarea id="textoEditar" cols="50" rows="10" onChange={(e) => setTextoEditar(e.target.value)}></textarea>
+            <textarea
+                id="textoEditar"
+                cols="50"
+                rows="10"
+                onChange={(e) => setTextoEditar(e.target.value)}
+                placeholder="Texto para el signo..."
+            ></textarea>
             <button id="btnEditar" onClick={handleClick}>Editar</button>
             <button id="btnHomeAdmin" onClick={goHome}>Home</button>
         </div>
@@ -77,3 +99,4 @@ function AdminHome({ user }) {
 }
 
 export default AdminHome;
+
