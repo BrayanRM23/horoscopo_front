@@ -17,43 +17,36 @@ function UserHome({ user }) {
         home("/");
     }
 
-    async function fetchSigno() {
-        if (signo && genero) {
-            try {
-                const response = await fetch(
-                    `https://horoscopo-back-coral.vercel.app/v1/signos?signo=${signo}&genero=${genero}`
-                );
-                const data = await response.json();
-
-                if (response.ok) {
-                    setTextoSigno(data.texto);
-                } else {
-                    setTextoSigno("Información no encontrada para este signo y género.");
-                }
-            } catch (error) {
-                console.error("Error al obtener el signo:", error);
-                setTextoSigno("Error al conectar con el servidor.");
-            }
+    async function handleFetch() {
+        if (!signo || !genero) {
+            alert("Selecciona un signo y un género.");
+            return;
         }
-    }
 
-    function handleSignoChange(event) {
-        setSigno(event.target.value);
-    }
-
-    function handleGeneroChange(event) {
-        setGenero(event.target.value);
+        try {
+            const response = await fetch(
+                `https://horoscopo-back-coral.vercel.app/v1/signos?signo=${signo}&genero=${genero}`
+            );
+            
+            if (response.ok) {
+                const data = await response.json();
+                setTextoSigno(data.texto);  // Mostrar el texto obtenido en el cuadro
+            } else {
+                setTextoSigno("No se encontró información para esta combinación.");
+            }
+        } catch (error) {
+            console.error("Error al obtener el signo:", error);
+            setTextoSigno("Error al conectar con el servidor.");
+        }
     }
 
     return (
         <div className="container">
-            <div id="txtSeleccionPage">
-                <h3>Selecciona tu signo zodiacal</h3>
-            </div>
+            <h3 id="txtSeleccionPage">Selecciona tu signo zodiacal</h3>
 
-            <div className="selectores">
-                <select id="selectSignos" onChange={handleSignoChange}>
-                    <option value="">Seleccione un signo</option>
+            <div>
+                <select id="selectSigno" onChange={(e) => setSigno(e.target.value)}>
+                    <option value="">Seleccionar signo</option>
                     <option value="Aries">Aries</option>
                     <option value="Géminis">Géminis</option>
                     <option value="Cáncer">Cáncer</option>
@@ -67,24 +60,21 @@ function UserHome({ user }) {
                     <option value="Piscis">Piscis</option>
                 </select>
 
-                <select id="selectSignos" onChange={handleGeneroChange}>
-                    <option value="">Seleccione un género</option>
+                <select id="selectSigno" onChange={(e) => setGenero(e.target.value)}>
+                    <option value="">Seleccionar género</option>
                     <option value="hombre">Hombre</option>
                     <option value="mujer">Mujer</option>
                     <option value="niño">Niño</option>
                 </select>
             </div>
 
-            <button id="btnBuscar" onClick={fetchSigno}>Buscar</button>
+            <button id="btnBuscar" onClick={handleFetch}>Buscar</button>
 
             <TextSigno texto={textoSigno} />
 
-            <button id="btnHome" onClick={fetchSigno}>Buscar</button>
+            <button id="btnHome" onClick={handleFetch}>Buscar</button>
         </div>
     );
 }
 
 export default UserHome;
-
-
-
