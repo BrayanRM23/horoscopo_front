@@ -61,7 +61,7 @@ function AdminHome({ user }) {
                     <option value="Piscis">Piscis</option>
                 </select>
 
-                <select id="textoAdmin" onChange={handleSelectGenero}>
+                <select id="editSignos" onChange={handleSelectGenero}>
                     <option value="">Selecciona un género</option>
                     <option value="hombre">Hombre</option>
                     <option value="mujer">Mujer</option>
