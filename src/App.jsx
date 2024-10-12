@@ -21,24 +21,7 @@ function App() {
       </Routes>
     </BrowserRouter>
   )
-  
 }
-app.get('/v1/signos', async (req, res) => {
-  const { signo, genero } = req.query;
-  try {
-      const signoEncontrado = await Signo.findOne({ signo, genero });
-      if (signoEncontrado) {
-          res.json({ texto: signoEncontrado.texto });
-      } else {
-          res.status(404).json({ mensaje: "No se encontró información para este signo y género." });
-      }
-  } catch (error) {
-      console.error("Error al buscar el signo:", error);
-      res.status(500).json({ mensaje: "Error interno del servidor." });
-  }
-});
-
-
 
 // function Navigation(){
 //   return <nav>
