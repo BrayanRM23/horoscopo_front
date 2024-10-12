@@ -20,8 +20,9 @@ function UserHome({ user }) {
     async function fetchSigno() {
         if (signo && genero) {
             try {
-                const url = `https://horoscopo-back-coral.vercel.app/v1/signos?signo=${signo}&genero=${genero}`;
-                const response = await fetch(url);
+                const response = await fetch(
+                    `https://horoscopo-back-coral.vercel.app/v1/signos?signo=${signo}&genero=${genero}`
+                );
                 const data = await response.json();
 
                 if (response.ok) {
@@ -70,12 +71,13 @@ function UserHome({ user }) {
 
             <TextSigno texto={textoSigno} />
 
-            <button id="btnHome"  onClick={fetchSigno}>Ver Signo</button>
+            <button id="btnHome" onClick={fetchSigno}>Ver Signo</button>
         </div>
     );
 }
 
 export default UserHome;
+
 
 
 
