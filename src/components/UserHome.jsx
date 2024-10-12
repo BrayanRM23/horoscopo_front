@@ -75,7 +75,7 @@ function UserHome({ user }) {
                 </select>
             </div>
 
-            <button id="btnBuscar" onClick={fetchSigno}>Buscar</button>
+            <button id="btnHome" onClick={fetchSigno}>Buscar</button>
 
             <TextSigno texto={textoSigno} />
 
