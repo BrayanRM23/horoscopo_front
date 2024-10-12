@@ -74,12 +74,10 @@ function UserHome({ user }) {
                     <option value="niño">Niño</option>
                 </select>
             </div>
-
-            <button id="btnHome" onClick={fetchSigno}>Buscar</button>
-
+            
             <TextSigno texto={textoSigno} />
 
-            <button id="btnHome" onClick={goHome}>Home</button>
+            <button id="btnHome" onClick={fetchSigno}>Buscar</button>
         </div>
     );
 }
