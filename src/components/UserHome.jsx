@@ -69,7 +69,7 @@ function UserHome({ user }) {
                     <option value="Piscis">Piscis</option>
                 </select>
 
-                <select id="selectGenero" onChange={handleGeneroChange}>
+                <select id="selectSignos" onChange={handleGeneroChange}>
                     <option value="">Seleccione un género</option>
                     <option value="hombre">Hombre</option>
                     <option value="mujer">Mujer</option>
