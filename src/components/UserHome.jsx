@@ -25,7 +25,14 @@ function UserHome({ user }) {
 
         try {
             const response = await fetch(
-                `https://horoscopo-back-coral.vercel.app/v1/signos?signo=${signo}&genero=${genero}`
+                'https://horoscopo-back-coral.vercel.app/v1/signos',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ signo, genero }),
+                }
             );
 
             if (response.ok) {
@@ -88,4 +95,5 @@ function UserHome({ user }) {
 }
 
 export default UserHome;
+
 
