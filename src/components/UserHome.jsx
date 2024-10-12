@@ -24,9 +24,9 @@ function UserHome({ user }) {
                     `https://horoscopo-back-coral.vercel.app/v1/signos?signo=${signo}&genero=${genero}`
                 );
                 const data = await response.json();
-
+    
                 if (response.ok) {
-                    setTextoSigno(data.texto);
+                    setTextoSigno(data.texto); // Asegúrate que el backend devuelva "texto"
                 } else {
                     setTextoSigno("Información no encontrada para este signo y género.");
                 }
@@ -34,6 +34,8 @@ function UserHome({ user }) {
                 console.error("Error al obtener el signo:", error);
                 setTextoSigno("Error al conectar con el servidor.");
             }
+        } else {
+            setTextoSigno("Seleccione un signo y un género.");
         }
     }
 
@@ -67,14 +69,16 @@ function UserHome({ user }) {
                     <option value="Piscis">Piscis</option>
                 </select>
 
-                <select id="selectSignos" onChange={handleGeneroChange}>
+                <select id="selectGenero" onChange={handleGeneroChange}>
                     <option value="">Seleccione un género</option>
                     <option value="hombre">Hombre</option>
                     <option value="mujer">Mujer</option>
                     <option value="niño">Niño</option>
                 </select>
             </div>
-            
+
+            <button id="btnBuscar" onClick={fetchSigno}>Buscar</button>
+
             <TextSigno texto={textoSigno} />
 
             <button id="btnHome" onClick={fetchSigno}>Buscar</button>
@@ -83,4 +87,5 @@ function UserHome({ user }) {
 }
 
 export default UserHome;
+
 
