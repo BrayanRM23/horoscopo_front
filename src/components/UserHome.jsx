@@ -18,33 +18,36 @@ function UserHome({ user }) {
     }
 
     async function fetchSigno() {
-        if (!signo || !genero) {
-            alert("Por favor, selecciona un signo y un género.");
-            return;
-        }
-
-        try {
-            const response = await fetch(
-                'https://horoscopo-back-coral.vercel.app/v1/signos',
-                {
+        if (signo && genero) {
+            try {
+                const response = await fetch("https://horoscopo-back-coral.vercel.app/v1/signos", {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ signo, genero }),
-                }
-            );
+                    body: JSON.stringify({ signo, genero }) // Envía signo y género en el cuerpo
+                });
 
-            if (response.ok) {
                 const data = await response.json();
-                setTextoSigno(data.texto); // Muestra el texto en el cuadro
-            } else {
-                setTextoSigno("Información no encontrada para este signo y género.");
+
+                if (response.ok) {
+                    setTextoSigno(data.texto); // Usa el texto recibido
+                } else {
+                    setTextoSigno("Información no encontrada para este signo y género.");
+                }
+            } catch (error) {
+                console.error("Error al obtener el signo:", error);
+                setTextoSigno("Error al conectar con el servidor.");
             }
-        } catch (error) {
-            console.error("Error al obtener el signo:", error);
-            setTextoSigno("Error al conectar con el servidor.");
         }
+    }
+
+    function handleSignoChange(event) {
+        setSigno(event.target.value);
+    }
+
+    function handleGeneroChange(event) {
+        setGenero(event.target.value);
     }
 
     return (
@@ -54,11 +57,7 @@ function UserHome({ user }) {
             </div>
 
             <div className="selectores">
-                <select 
-                    id="selectSignos" 
-                    value={signo} 
-                    onChange={(e) => setSigno(e.target.value)}
-                >
+                <select id="selectSignos" onChange={handleSignoChange}>
                     <option value="">Seleccione un signo</option>
                     <option value="Aries">Aries</option>
                     <option value="Géminis">Géminis</option>
@@ -73,11 +72,7 @@ function UserHome({ user }) {
                     <option value="Piscis">Piscis</option>
                 </select>
 
-                <select 
-                    id="selectSignos" 
-                    value={genero} 
-                    onChange={(e) => setGenero(e.target.value)}
-                >
+                <select id="selectSignos" onChange={handleGeneroChange}>
                     <option value="">Seleccione un género</option>
                     <option value="hombre">Hombre</option>
                     <option value="mujer">Mujer</option>
@@ -95,5 +90,3 @@ function UserHome({ user }) {
 }
 
 export default UserHome;
-
-
