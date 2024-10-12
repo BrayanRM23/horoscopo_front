@@ -17,9 +17,9 @@ function UserHome({ user }) {
         home("/");
     }
 
-    async function handleFetch() {
+    async function fetchSigno() {
         if (!signo || !genero) {
-            alert("Selecciona un signo y un género.");
+            alert("Por favor, selecciona un signo y un género.");
             return;
         }
 
@@ -27,12 +27,12 @@ function UserHome({ user }) {
             const response = await fetch(
                 `https://horoscopo-back-coral.vercel.app/v1/signos?signo=${signo}&genero=${genero}`
             );
-            
+
             if (response.ok) {
                 const data = await response.json();
-                setTextoSigno(data.texto);  // Mostrar el texto obtenido en el cuadro
+                setTextoSigno(data.texto); // Muestra el texto en el cuadro
             } else {
-                setTextoSigno("No se encontró información para esta combinación.");
+                setTextoSigno("Información no encontrada para este signo y género.");
             }
         } catch (error) {
             console.error("Error al obtener el signo:", error);
@@ -47,7 +47,11 @@ function UserHome({ user }) {
             </div>
 
             <div className="selectores">
-                <select id="selectSignos" onChange={handleSignoChange}>
+                <select 
+                    id="selectSignos" 
+                    value={signo} 
+                    onChange={(e) => setSigno(e.target.value)}
+                >
                     <option value="">Seleccione un signo</option>
                     <option value="Aries">Aries</option>
                     <option value="Géminis">Géminis</option>
@@ -62,7 +66,11 @@ function UserHome({ user }) {
                     <option value="Piscis">Piscis</option>
                 </select>
 
-                <select id="selectSignos" onChange={handleGeneroChange}>
+                <select 
+                    id="selectSignos" 
+                    value={genero} 
+                    onChange={(e) => setGenero(e.target.value)}
+                >
                     <option value="">Seleccione un género</option>
                     <option value="hombre">Hombre</option>
                     <option value="mujer">Mujer</option>
@@ -70,13 +78,14 @@ function UserHome({ user }) {
                 </select>
             </div>
 
-            <button id="btnBuscar" onClick={handleFetch}>Buscar</button>
+            <button id="btnBuscar" onClick={fetchSigno}>Buscar</button>
 
             <TextSigno texto={textoSigno} />
 
-            <button id="btnHome" onClick={handleFetch}>Buscar</button>
+            <button id="btnHome" onClick={fetchSigno}>Buscar</button>
         </div>
     );
 }
 
 export default UserHome;
+
