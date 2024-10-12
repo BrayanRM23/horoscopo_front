@@ -74,7 +74,7 @@ function UserHome({ user }) {
                 </select>
 
                 <select 
-                    id="selectGenero" 
+                    id="selectSignos" 
                     value={genero} 
                     onChange={(e) => setGenero(e.target.value)}
                 >
